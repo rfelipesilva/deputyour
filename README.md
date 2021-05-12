@@ -2,10 +2,11 @@
 Project status: IN PROGRESS :white_check_mark:
 
 reference:
- - https://www.camara.leg.br
- - https://www.camara.leg.br/busca-geral?termo=API#gsc.tab=0&gsc.q=API&gsc.page=1
- - https://dadosabertos.camara.leg.br/swagger/api.html
- - https://www.camara.leg.br/deputados/213274
+ - https://www.camara.leg.br -> camara official website
+ - https://dadosabertos.camara.leg.br/swagger/api.html -> API Documentation
+ - https://www.camara.leg.br/deputados/213274 -> e.g what we can compare/compile against other deputies
+ - https://www.camara.leg.br/SitCamaraWS/Deputados.asmx?op=ObterDeputados -> Properly way to get full info form deputies automatically (e.g https://www.camara.leg.br/SitCamaraWS/Deputados.asmx/ObterDeputados?%20HTTP/1.1)
+ - https://www2.camara.leg.br/transparencia/dados-abertos/dados-abertos-legislativo -> idea how to call checking the Web Services
 
 ## Description :pushpin:
 The idea is to develop a web application that makes possible understand the cost for each deputy from Brazil.
