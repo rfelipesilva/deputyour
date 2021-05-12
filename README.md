@@ -1,7 +1,7 @@
 # deputado-monitoring
 Project status: IN PROGRESS :white_check_mark:
 
-reference:
+references:
  - https://www.camara.leg.br -> camara official website
  - https://dadosabertos.camara.leg.br/swagger/api.html -> API Documentation
  - https://www.camara.leg.br/deputados/213274 -> e.g what we can compare/compile against other deputies
