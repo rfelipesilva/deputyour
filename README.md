@@ -1,5 +1,5 @@
 # deputado-monitoring
-Project status: IN PROGRESS :white_check_mark:
+Project status: IN PROGRESS :warning:
 
 references:
  - https://www.camara.leg.br -> camara official website
