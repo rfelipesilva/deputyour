@@ -1,4 +1,4 @@
-# deputado-monitoring
+# deputy-monitoring
 Project status: IN PROGRESS :warning:
 
 references:
