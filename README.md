@@ -16,6 +16,7 @@ The idea is to develop a web application that makes possible understand the cost
 > - TO DO;
 
 ## What is being used? :hammer_and_wrench:
+> - [requests](https://docs.python-requests.org/en/master/): to get data directly from API;
 > - [pandas](https://pandas.pydata.org/): to handle data manipulation;
 > - [streamlit](https://streamlit.io/): to develop web application;
 > - back-end: web scrapper or API? TO DO;
