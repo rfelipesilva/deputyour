@@ -21,7 +21,7 @@ The idea is to develop a web application that makes possible understand the cost
 > - [streamlit](https://streamlit.io/): to develop web application;
 > - back-end: web scrapper or API? TO DO;
 > - [plotly](https://plotly.com/): to provide interactive charts;
-> - deployment: azure web app with free tier for small/low-traffic sites, heroku or streamlit?
+> - deployment: Azure Web App Service with free tier for small/low-traffic sites, heroku or streamlit?
 
 ## Remarks :warning:
 > - NO REMARKS SO FAR;
