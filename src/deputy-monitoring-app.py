@@ -34,6 +34,11 @@ if deputy_id:
     col2.image(deputy_info['ultimoStatus']['urlFoto'], width=180)
 
     st.markdown("""***""")
+    st.header('Career information')
+    deputy_occupation = Data.get_deputy_occupation(deputy_dict[deputy_id])
+    st.text('Profession: {}'.format(deputy_occupation))
 
-    deputy_timeline = Data.get_deputy_career(1)
+    st.write(Data.get_deputy_jobs(deputy_dict[deputy_id]))
+
+    deputy_timeline = Data.get_deputy_jobs(deputy_dict[deputy_id])
     timeline(deputy_timeline, height=400)
