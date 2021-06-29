@@ -3,13 +3,32 @@
 #! Python3.8
 
 import streamlit as st
+import plotly.express as px
+
 from streamlit_timeline import timeline
 
 from support import Data
 
-# st.set_page_config(page_title="My App",layout='wide')
+st.set_page_config(page_title="My App",layout='wide')
 
 deputy_dict = Data.get_deputy_dict()
+
+def get_bar_chart(dataframe):
+    data = dataframe.groupby(['year', 'month', 'cost_type'])['value'].sum().reset_index()
+    fig = px.bar(data, x='month', y='value', width=800)
+    st.plotly_chart(fig)
+
+def get_cost_chart(deputy_id):
+
+    deputy_costs = Data.get_deputy_costs(deputy_id)
+
+    cost_col1, cost_col2 = st.beta_columns(2)
+
+    cost_selected = cost_col1.selectbox('Select the cost type to analyze:', list(deputy_costs.cost_type.unique()))
+    year_selected = cost_col2.selectbox('Select the year to analyze:', list(deputy_costs.year.unique()))
+    costs_filtered = deputy_costs.loc[(deputy_costs.cost_type == cost_selected) & (deputy_costs.year == year_selected)]
+    # cost_col1.write(costs_filtered)
+    get_bar_chart(costs_filtered)
 
 st.header('Deputy monitoring')
 deputy_id = st.selectbox('Selecione o deputado:', list(deputy_dict.keys()))
@@ -45,3 +64,6 @@ if deputy_id:
 
     st.markdown("""***""")
     st.header('Cost analysis')
+    # deputy_costs = Data.get_deputy_costs(deputy_dict[deputy_id])
+    get_cost_chart(deputy_dict[deputy_id])
+    # st.write(deputy_costs)
