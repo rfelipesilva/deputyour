@@ -38,7 +38,10 @@ if deputy_id:
     deputy_occupation = Data.get_deputy_occupation(deputy_dict[deputy_id])
     st.text('Profession: {}'.format(deputy_occupation))
 
-    st.write(Data.get_deputy_jobs(deputy_dict[deputy_id]))
+    # st.write(Data.get_deputy_jobs(deputy_dict[deputy_id]))
 
     deputy_timeline = Data.get_deputy_jobs(deputy_dict[deputy_id])
     timeline(deputy_timeline, height=400)
+
+    st.markdown("""***""")
+    st.header('Cost analysis')
