@@ -3,6 +3,7 @@
 #! Python3.8
 
 import requests
+import pandas as pd
 from datetime import date
 
 class Data:
@@ -106,34 +107,35 @@ class Data:
         
         return jobs
 
-        # dd = {
-        #     "title": {
-        #         "media": {
-        #         "url": "",
-        #         "caption": "check",
-        #         "credit": ""
-        #         },
-        #         "text": {
-        #         "headline": "Career",
-        #         "text": "<p>Actually, jobs</p>"
-        #         }
-        #     },
-        #     "events": [{
-        #         "media": {
-        #             "url": "",
-        #             "caption": "Evento test"
-        #         },
-        #         "start_date": {
-        #             "year": "2010"
-        #         },
-        #         "end_date": {
-        #             "year": "2012"
-        #         },
-        #         "text": {
-        #             "headline": "Profissão test",
-        #             "text": "<br/><p>Trampava bem.</p><br/>"
-        #         }
-        #         }]
-        # }
+    def get_deputy_costs(deputy_id):
+        """this function returns the costs from a specific deputy 
+           according to deputy_id parameter
+        """
+        api = f'https://dadosabertos.camara.leg.br/api/v2/deputados/{deputy_id}/'
+        years = [2019, 2020, 2021]
 
-        # return dd
+        dfs_to_contact = []
+        
+        for year in years:
+            method = f'despesas?ano={year}&ordem=ASC&ordenarPor=ano'
+            url_call = api + method
+            response = requests.get(url_call)
+            
+            data = response.json()
+
+            cost_year, cost_month, cost_type, cost_value, cost_code = [], [], [], [], []
+
+            for costs in data['dados']:
+                cost_year.append(costs['ano'])
+                cost_month.append(costs['mes'])
+                cost_type.append(costs['tipoDespesa'])
+                cost_value.append(costs['valorDocumento'])
+                cost_code.append(costs['codDocumento'])
+
+                df = pd.DataFrame({'year': cost_year, 'month': cost_month, 'cost_type': cost_type, 
+                                   'value': cost_value, 'cost_code': cost_code})
+                dfs_to_contact.append(df)
+
+        costs_df = pd.concat(dfs_to_contact).drop_duplicates()
+
+        return costs_df
