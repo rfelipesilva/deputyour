@@ -2,6 +2,7 @@
 #? @github: https://github.com/rfelipesilva
 #! Python3.8
 
+import os
 import requests
 import pandas as pd
 from datetime import date
@@ -10,7 +11,6 @@ class Data:
 
     """Class to centralize and provide any kind of data, path or credential
     """
-
     def get_deputy_dict():
         """This fuction return a dictionary with deputy name + party abbreviation 
            and id to later be used in other calls
@@ -107,10 +107,21 @@ class Data:
         
         return jobs
 
+    def get_full_costs():
+        """This function returns the full costs per category for all deputies
+           for period 2019 up to July 7th, 2021 (2021/06/02)
+        """
+        data = pd.read_csv('data/csv/costs_full.csv', encoding='utf-8', delimiter='|')
+        data.rename({'value':'mean'}, inplace=True)
+        return data
+
     def get_deputy_costs(deputy_id):
         """this function returns the costs from a specific deputy 
            according to deputy_id parameter
         """
+        # full_deputies_costs = pd.read_csv('data/csv/0_costs_by_month.csv', encoding='utf-8', delimiter='|')
+        # full_deputies_costs.rename({'value':'mean'}, inplace=True)
+
         api = f'https://dadosabertos.camara.leg.br/api/v2/deputados/{deputy_id}/'
         years = [2019, 2020, 2021]
 
@@ -136,6 +147,11 @@ class Data:
                                    'value': cost_value, 'cost_code': cost_code})
                 dfs_to_contact.append(df)
 
-        costs_df = pd.concat(dfs_to_contact).drop_duplicates()
+        deputy_costs_df = pd.concat(dfs_to_contact).drop_duplicates()
+        deputy_costs_grouped = deputy_costs_df.groupby(['year', 'month', 'cost_type'])['value'].sum().reset_index()
+        deputy_costs_grouped.rename({'value':'deputy cost'}, inplace=True)
 
-        return costs_df
+        #MERGING MEAN COST WITH SPECIFIC DEPUTY COST
+        # costs_df = deputy_costs_grouped.merge(full_deputies_costs, on=['year','month'], how='left')
+        # costs_df.to_csv('test.csv')
+        return deputy_costs_grouped
