@@ -11,7 +11,10 @@ class Data:
 
     """Class to centralize and provide any kind of data, path or credential
     """
-    def get_deputy_dict():
+    def __init__(self):
+        return
+
+    def get_deputy_dict(self):
         """This fuction return a dictionary with deputy name + party abbreviation 
            and id to later be used in other calls
         """
@@ -29,7 +32,7 @@ class Data:
         
         return deputy_dict
 
-    def get_deputy_info(deputy_id):
+    def get_deputy_info(self, deputy_id):
         """This fuction return dictionary with main information 
            from a specific deputy according to deputy_id parameter
         """
@@ -46,7 +49,7 @@ class Data:
 
         return data['dados']
 
-    def get_deputy_occupation(deputy_id):
+    def get_deputy_occupation(self, deputy_id):
         """this function returns the occupation from a specific deputy 
            according to deputy_id parameter, if deputy has declared any
         """
@@ -61,7 +64,7 @@ class Data:
         else:
             return False
 
-    def get_deputy_jobs(deputy_id):
+    def get_deputy_jobs(self, deputy_id):
         """this function returns a dictionary with information for each job performed 
            by the deputy according to deputy_id parameter, if deputy has declared any
         """
@@ -107,20 +110,19 @@ class Data:
         
         return jobs
 
-    def get_full_costs():
+    def get_full_costs(self):
         """This function returns the full costs per category for all deputies
            for period 2019 up to July 7th, 2021 (2021/06/02)
         """
         data = pd.read_csv('data/csv/costs_full.csv', encoding='utf-8', delimiter='|')
-        data.rename({'value':'mean'}, inplace=True)
-        return data
+        data_grouped = data.groupby(['year','month','cost_type'])['value'].agg(['mean']).reset_index()
+        return data_grouped
 
-    def get_deputy_costs(deputy_id):
+    def get_deputy_costs(self, deputy_id):
         """this function returns the costs from a specific deputy 
            according to deputy_id parameter
         """
-        # full_deputies_costs = pd.read_csv('data/csv/0_costs_by_month.csv', encoding='utf-8', delimiter='|')
-        # full_deputies_costs.rename({'value':'mean'}, inplace=True)
+        full_deputies_costs = self.get_full_costs()
 
         api = f'https://dadosabertos.camara.leg.br/api/v2/deputados/{deputy_id}/'
         years = [2019, 2020, 2021]
@@ -152,6 +154,8 @@ class Data:
         deputy_costs_grouped.rename({'value':'deputy cost'}, inplace=True)
 
         #MERGING MEAN COST WITH SPECIFIC DEPUTY COST
-        # costs_df = deputy_costs_grouped.merge(full_deputies_costs, on=['year','month'], how='left')
+        costs_data = deputy_costs_grouped.merge(full_deputies_costs, on=['year', 'month', 'cost_type'], how='left')
         # costs_df.to_csv('test.csv')
-        return deputy_costs_grouped
+
+        # return deputy_costs_grouped
+        return costs_data

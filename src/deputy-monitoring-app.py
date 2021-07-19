@@ -11,7 +11,7 @@ from support import Data
 
 st.set_page_config(page_title="My App",layout='wide')
 
-deputy_dict = Data.get_deputy_dict()
+deputy_dict = Data().get_deputy_dict()
 
 def get_bar_chart(dataframe):
     fig = px.bar(dataframe, x='month', y='value', width=800)
@@ -20,7 +20,7 @@ def get_bar_chart(dataframe):
 
 def get_cost_charts(deputy_id):
 
-    deputy_costs = Data.get_deputy_costs(deputy_id)
+    deputy_costs = Data().get_deputy_costs(deputy_id)
     st.write(deputy_costs)
     # deputies_full_costs = Data.get_full_costs()
 
@@ -41,7 +41,7 @@ st.markdown("""***""")
 col1, col2 = st.beta_columns(2)
 
 if deputy_id:
-    deputy_info = Data.get_deputy_info(deputy_dict[deputy_id])
+    deputy_info = Data().get_deputy_info(deputy_dict[deputy_id])
     col1.header('Main information')
     col1.text('Name: {}'.format(deputy_info['ultimoStatus']['nome']))
     col1.text('Party: {}'.format(deputy_info['ultimoStatus']['siglaPartido']))
@@ -57,12 +57,12 @@ if deputy_id:
 
     st.markdown("""***""")
     st.header('Career information')
-    deputy_occupation = Data.get_deputy_occupation(deputy_dict[deputy_id])
+    deputy_occupation = Data().get_deputy_occupation(deputy_dict[deputy_id])
     st.text('Profession: {}'.format(deputy_occupation))
 
     # st.write(Data.get_deputy_jobs(deputy_dict[deputy_id]))
 
-    deputy_timeline = Data.get_deputy_jobs(deputy_dict[deputy_id])
+    deputy_timeline = Data().get_deputy_jobs(deputy_dict[deputy_id])
     timeline(deputy_timeline, height=400)
 
     st.markdown("""***""")
