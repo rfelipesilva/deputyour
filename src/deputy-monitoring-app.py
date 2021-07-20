@@ -2,6 +2,8 @@
 #? @github: https://github.com/rfelipesilva
 #! Python3.8
 
+# import pandas as pd
+import numpy as np
 import streamlit as st
 import plotly.express as px
 
@@ -11,27 +13,34 @@ from support import Data
 
 st.set_page_config(page_title="My App",layout='wide')
 
-deputy_dict = Data().get_deputy_dict()
+deputy_dict = Data.get_deputy_dict()
 
 def get_bar_chart(dataframe):
-    fig = px.bar(dataframe, x='month', y='value', width=800)
+    fig = px.line(dataframe, x='month', y=['deputy cost','mean'], width=800)
     return fig
     #st.plotly_chart(fig)
 
 def get_cost_charts(deputy_id):
 
-    deputy_costs = Data().get_deputy_costs(deputy_id)
-    st.write(deputy_costs)
-    # deputies_full_costs = Data.get_full_costs()
+    target_deputy_cost = Data.get_deputy_cost(deputy_id)
+    full_deputies_cost = Data.get_full_cost()
+    st.write(target_deputy_cost)
+    st.write(full_deputies_cost)
+
+    cost_data = target_deputy_cost.merge(full_deputies_cost, on=['year', 'month', 'cost_type'], how='left')
+    cost_data['deputy cost'] = np.round(cost_data['deputy cost'],decimals=2).astype(str)
+    cost_data['mean'] = np.round(cost_data['mean'],decimals=2).astype(str)
+    st.write(cost_data)
 
     cost_col1, cost_col2 = st.beta_columns(2)
 
-    cost_selected = cost_col1.selectbox('Select the cost type to analyze:', list(deputy_costs.cost_type.unique()))
-    year_selected = cost_col2.selectbox('Select the year to analyze:', list(deputy_costs.year.unique()))
-    costs_filtered = deputy_costs.loc[(deputy_costs.cost_type == cost_selected) & (deputy_costs.year == year_selected)]
+    cost_selected = cost_col1.selectbox('Select the cost type to analyze:', list(cost_data.cost_type.unique()))
+    year_selected = cost_col2.selectbox('Select the year to analyze:', list(cost_data.year.unique()))
+    costs_filtered = cost_data.loc[(cost_data.cost_type == cost_selected) & (cost_data.year == year_selected)]
     cost_col1.write(costs_filtered)
     # cost_col1.plotly_chart(get_bar_chart(costs_filtered))
     # cost_col2.write(deputies_full_costs)
+    st.plotly_chart(get_bar_chart(costs_filtered))
 
 st.header('Deputy monitoring')
 deputy_id = st.selectbox('Selecione o deputado:', list(deputy_dict.keys()))
@@ -41,7 +50,7 @@ st.markdown("""***""")
 col1, col2 = st.beta_columns(2)
 
 if deputy_id:
-    deputy_info = Data().get_deputy_info(deputy_dict[deputy_id])
+    deputy_info = Data.get_deputy_info(deputy_dict[deputy_id])
     col1.header('Main information')
     col1.text('Name: {}'.format(deputy_info['ultimoStatus']['nome']))
     col1.text('Party: {}'.format(deputy_info['ultimoStatus']['siglaPartido']))
@@ -57,12 +66,12 @@ if deputy_id:
 
     st.markdown("""***""")
     st.header('Career information')
-    deputy_occupation = Data().get_deputy_occupation(deputy_dict[deputy_id])
+    deputy_occupation = Data.get_deputy_occupation(deputy_dict[deputy_id])
     st.text('Profession: {}'.format(deputy_occupation))
 
     # st.write(Data.get_deputy_jobs(deputy_dict[deputy_id]))
 
-    deputy_timeline = Data().get_deputy_jobs(deputy_dict[deputy_id])
+    deputy_timeline = Data.get_deputy_jobs(deputy_dict[deputy_id])
     timeline(deputy_timeline, height=400)
 
     st.markdown("""***""")
