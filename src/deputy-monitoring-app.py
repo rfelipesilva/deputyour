@@ -2,7 +2,7 @@
 #? @github: https://github.com/rfelipesilva
 #! Python3.8
 
-# import pandas as pd
+import pandas as pd
 import numpy as np
 import streamlit as st
 import plotly.express as px
@@ -16,31 +16,33 @@ st.set_page_config(page_title="My App",layout='wide')
 deputy_dict = Data.get_deputy_dict()
 
 def get_bar_chart(dataframe):
-    fig = px.line(dataframe, x='month', y=['deputy cost','mean'], width=800)
+    fig = px.line(dataframe, x='month', y='value', color='cost', width=1350)
     return fig
-    #st.plotly_chart(fig)
 
 def get_cost_charts(deputy_id):
 
     target_deputy_cost = Data.get_deputy_cost(deputy_id)
     full_deputies_cost = Data.get_full_cost()
-    st.write(target_deputy_cost)
-    st.write(full_deputies_cost)
 
-    cost_data = target_deputy_cost.merge(full_deputies_cost, on=['year', 'month', 'cost_type'], how='left')
-    cost_data['deputy cost'] = np.round(cost_data['deputy cost'],decimals=2).astype(str)
-    cost_data['mean'] = np.round(cost_data['mean'],decimals=2).astype(str)
-    st.write(cost_data)
+    #? USED TO VALIDATE VALUES
+    #? st.write(target_deputy_cost)
+    #? st.write(full_deputies_cost)
 
+    #! TO DO: REVIEW THIS BLOCK OF CODE, USED TO ROUND VALUES
+    #! cost_data = target_deputy_cost.merge(full_deputies_cost, on=['year', 'month', 'cost_type'], how='left')
+    #! cost_data['deputy cost'] = np.round(cost_data['deputy cost'],decimals=2).astype(str)
+    #! cost_data['mean'] = np.round(cost_data['mean'],decimals=2).astype(str)
+
+    cost_data = pd.concat([target_deputy_cost, full_deputies_cost])
     cost_col1, cost_col2 = st.beta_columns(2)
-
-    cost_selected = cost_col1.selectbox('Select the cost type to analyze:', list(cost_data.cost_type.unique()))
-    year_selected = cost_col2.selectbox('Select the year to analyze:', list(cost_data.year.unique()))
-    costs_filtered = cost_data.loc[(cost_data.cost_type == cost_selected) & (cost_data.year == year_selected)]
-    cost_col1.write(costs_filtered)
-    # cost_col1.plotly_chart(get_bar_chart(costs_filtered))
-    # cost_col2.write(deputies_full_costs)
-    st.plotly_chart(get_bar_chart(costs_filtered))
+    cost_selected = cost_col1.selectbox('Select the cost type to analyze:',
+                                        list(target_deputy_cost.cost_type.unique()))
+    year_selected = cost_col2.selectbox('Select the year to analyze:', 
+                                        list(target_deputy_cost.year.unique()))
+    costs_df_filtered = cost_data.loc[(cost_data.cost_type == cost_selected) 
+                                       & (cost_data.year == year_selected)]
+    st.write(costs_df_filtered)
+    st.plotly_chart(get_bar_chart(costs_df_filtered))
 
 st.header('Deputy monitoring')
 deputy_id = st.selectbox('Selecione o deputado:', list(deputy_dict.keys()))
