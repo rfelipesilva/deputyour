@@ -111,20 +111,22 @@ class Data:
         """This function returns the full costs per category for all deputies
            for period 2019 up to July 7th, 2021 (2021/06/02)
         """
-        # data = pd.read_csv('data/csv/costs_full.csv', encoding='utf-8', delimiter='|')
-        # data_full_grouped = data.groupby(['year','month','cost_type'])['value'].agg(['mean']).reset_index()
-        # data_full_grouped['mean'] = round(data_full_grouped['mean'],2)
-        # data_full_grouped.to_csv('data/costs_deputies_full.csv', encoding='utf-8', sep='|', index=False)
+        #! TO DO: REVIEW LATER
+        #! data = pd.read_csv('data/csv/costs_full.csv', encoding='utf-8', delimiter='|')
+        #! data_full_grouped = data.groupby(['year','month','cost_type'])['value'].agg(['mean']).reset_index()
+        #! data_full_grouped['mean'] = round(data_full_grouped['mean'],2)
+        #! data_full_grouped.to_csv('data/costs_deputies_full.csv', encoding='utf-8', sep='|', index=False)
 
-        data = pd.read_csv('data/costs_deputies_full.csv', encoding='utf-8', delimiter='|')
-        # data['mean'] = round(data['mean'], 2)
+        data = pd.read_csv('data/costs_deputies_full.csv',
+                            encoding='utf-8', delimiter='|')
+        data.rename(columns={'mean':'value'}, inplace = True)
+        data['cost'] = 'mean'
         return data
 
     def get_deputy_cost(deputy_id):
         """this function returns the costs from a specific deputy 
            according to deputy_id parameter
         """
-
         api = f'https://dadosabertos.camara.leg.br/api/v2/deputados/{deputy_id}/'
         years = [2019, 2020, 2021]
 
@@ -152,17 +154,14 @@ class Data:
 
         deputy_costs_df = pd.concat(dfs_to_contact).drop_duplicates()
         deputy_costs_grouped = deputy_costs_df.groupby(['year', 'month', 'cost_type'])['value'].sum().reset_index()
-        deputy_costs_grouped.rename(columns={'value':'deputy cost'}, inplace=True)
-        # deputy_costs_grouped['deputy cost'] = round(deputy_costs_grouped['deputy cost'],2)
+        deputy_costs_grouped['cost'] = 'deputy cost'
 
-        #MERGING MEAN COST WITH SPECIFIC DEPUTY COST
-        # costs_data = deputy_costs_grouped.merge(full_deputies_costs, on=['year', 'month', 'cost_type'], how='left')
-        # costs_df.to_csv('test.csv')
-
+        #! TO DO: REVIEW LATER
+        #! deputy_costs_grouped.rename(columns={'value':'deputy cost'}, inplace=True)
+        #! MERGING MEAN COST WITH SPECIFIC DEPUTY COST
+        #! costs_data = deputy_costs_grouped.merge(full_deputies_costs, on=['year', 'month', 'cost_type'], how='left')
+        #! costs_df.to_csv('test.csv')
         return deputy_costs_grouped
 
-    def round_data(value):
-
-        return round(value, 2)
-
-# Data.get_full_costs()
+#? USED TO FORMAT FILES
+#? Data.get_full_costs()
