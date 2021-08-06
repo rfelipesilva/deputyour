@@ -8,7 +8,6 @@ import pandas as pd
 from datetime import date
 
 class Data:
-
     """Class to centralize and provide any kind of data, path or credential
     """
     def get_deputy_dict():
@@ -162,6 +161,89 @@ class Data:
         #! costs_data = deputy_costs_grouped.merge(full_deputies_costs, on=['year', 'month', 'cost_type'], how='left')
         #! costs_df.to_csv('test.csv')
         return deputy_costs_grouped
+
+class Language:
+    """Provide dictionary language for English and Portuguese
+    """
+    def get_lang_dict():
+        language_dict = {
+            'pt': {
+                'language': 'pt',
+                'sidebar': {
+                    'about': {
+                        'header': 'Sobre',
+                        'text': '''
+                            **Your Deputy** é um aplicativo desenvolvido por *Renan Silva* que busca facilitar o acesso aos dados dos deputados federais do Brasil.
+                            \nGostaria de sugerir melhorias ou comentar sobre o aplicativo? Esses são os canais onde você pode entrar em contato:
+                            \n![LinkedIn](https://raw.githubusercontent.com/paulrobertlloyd/socialmediaicons/main/linkedin-16x16.png) [LinkedIn perfil](https://www.linkedin.com/in/renan-silva-16960313a/?locale=en_US)
+                            \n![GitHub](https://raw.githubusercontent.com/paulrobertlloyd/socialmediaicons/main/github-16x16.png) TO DO
+                        '''
+                    }
+                },
+                'first_section': {
+                    'header': 'Você realmente conhece seu deputado?',
+                    'desc': 'Comece selecionando seu deputado abaixo, você pode digitar se preferir:'
+                },
+                'general_info_section': {
+                    'header': 'Informações gerais',
+                    'name': 'Nome',
+                    'party': 'Partido',
+                    'state': 'Estado',
+                    'email': 'E-mail',
+                    'age': 'Idade',
+                    'education': 'Grau de escolaridade'
+                },
+                'career_section': {
+                    'header': 'Informações de carreira',
+                    'profession': 'Profissão'
+                },
+                'cost_section': {
+                    'header': 'Análise de custo',
+                    'desc': 'Nesta seção, é possível analisar o quanto o deputado está gastando em comparação ao custo médio por tipo de despesa de todos os deputados.',
+                    'cost_type_filter': 'Selecione o tipo de despesa',
+                    'year_filter': 'Selecione o ano'
+                }
+            },
+            'en': {
+                'language': 'en',
+                'sidebar': {
+                    'about': {
+                        'header': 'About',
+                        'text': '''
+                            **Your Deputy** is an app developed by *Renan Silva* that aims to facilitate access to data from federal deputies in Brazil.
+                            \nWould you like to share your comments or suggest improvements? Here are the channels to contact:
+                            \n![LinkedIn](https://raw.githubusercontent.com/paulrobertlloyd/socialmediaicons/main/linkedin-16x16.png) [LinkedIn profile](https://www.linkedin.com/in/renan-silva-16960313a/?locale=en_US)
+                            \n![GitHub](https://raw.githubusercontent.com/paulrobertlloyd/socialmediaicons/main/github-16x16.png) TO DO
+                        '''
+                    }
+                },
+                'first_section': {
+                    'header': 'Do you really know your deputy?',
+                    'desc': "Let's start finding your deputy below, you can type the name if you want:"
+                },
+                'general_info_section': {
+                    'header': 'General information',
+                    'name': 'Name',
+                    'party': 'Party',
+                    'state': 'State',
+                    'email': 'E-mail',
+                    'age': 'Age',
+                    'education': 'Education'
+                },
+                'career_section': {
+                    'header': 'Career information',
+                    'profession': 'Profession'
+                },
+                'cost_section': {
+                    'header': 'Cost analysis',
+                    'desc': "Here it's possible to analyze how much the deputy is spending compared to the average cost of the expense type for all deputies",
+                    'cost_type_filter': 'Select the cost type',
+                    'year_filter': 'Select the year'
+                }
+            }
+        }
+
+        return language_dict
 
 #? USED TO FORMAT FILES
 #? Data.get_full_costs()
