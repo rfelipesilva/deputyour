@@ -173,7 +173,7 @@ class Language:
                     'about': {
                         'header': 'Sobre',
                         'text': '''
-                            **Your Deputy** é um aplicativo desenvolvido por *Renan Silva* que busca facilitar o acesso aos dados dos deputados federais do Brasil.
+                            **Deputyour** é um aplicativo desenvolvido por *Renan Silva* que busca facilitar o acesso aos dados dos deputados federais do Brasil.
                             \nGostaria de sugerir melhorias ou comentar sobre o aplicativo? Esses são os canais onde você pode entrar em contato:
                             \n![LinkedIn](https://raw.githubusercontent.com/paulrobertlloyd/socialmediaicons/main/linkedin-16x16.png) [LinkedIn perfil](https://www.linkedin.com/in/renan-silva-16960313a/?locale=en_US)
                             \n![GitHub](https://raw.githubusercontent.com/paulrobertlloyd/socialmediaicons/main/github-16x16.png) TO DO
@@ -210,7 +210,7 @@ class Language:
                     'about': {
                         'header': 'About',
                         'text': '''
-                            **Your Deputy** is an app developed by *Renan Silva* that aims to facilitate access to data from federal deputies in Brazil.
+                            **Deputyour** is an app developed by *Renan Silva* that aims to facilitate access to data from federal deputies in Brazil.
                             \nWould you like to share your comments or suggest improvements? Here are the channels to contact:
                             \n![LinkedIn](https://raw.githubusercontent.com/paulrobertlloyd/socialmediaicons/main/linkedin-16x16.png) [LinkedIn profile](https://www.linkedin.com/in/renan-silva-16960313a/?locale=en_US)
                             \n![GitHub](https://raw.githubusercontent.com/paulrobertlloyd/socialmediaicons/main/github-16x16.png) TO DO
