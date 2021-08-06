@@ -10,7 +10,7 @@ import plotly.express as px
 from streamlit_timeline import timeline
 from support import Data, Language
 
-st.set_page_config(page_title='Your Deputy', layout='wide', page_icon='🔍')
+st.set_page_config(page_title='Deputyour', layout='wide', page_icon='🔍')
 
 language = Language.get_lang_dict()
 deputy_dict = Data.get_deputy_dict()
@@ -57,7 +57,7 @@ def update_page(language_dict):
     st.sidebar.header(language_dict['sidebar']['about']['header'])
     st.sidebar.info(language_dict['sidebar']['about']['text'])
 
-    st.title('Your Deputy')
+    st.title('Deputyour')
     st.subheader(language_dict['first_section']['header'])
     deputy_id = st.selectbox(language_dict['first_section']['desc'], list(deputy_dict.keys()))
 
