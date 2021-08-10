@@ -2,10 +2,27 @@
 #? @github: https://github.com/rfelipesilva
 #! Python3.8
 
-import os
+# import os
 import requests
 import pandas as pd
 from datetime import date
+from textblob import TextBlob
+
+def get_translation(string, language_code):
+    """Testing textblob
+
+    Args:
+        string (str): string to translate
+        language_code (str): language code, portuguese -> pt, english -> en
+
+    Returns:
+        [type]: [description]
+    """
+    try:
+        blob = TextBlob(string)
+        return blob.translate(to=language_code)
+    except:
+        return string
 
 class Data:
     """Class to centralize and provide any kind of data, path or credential
@@ -45,7 +62,7 @@ class Data:
 
         return data['dados']
 
-    def get_deputy_occupation(deputy_id):
+    def get_deputy_occupation(deputy_id, language_code):
         """this function returns the occupation from a specific deputy 
            according to deputy_id parameter, if deputy has declared any
         """
@@ -53,14 +70,14 @@ class Data:
         response = requests.get(url_call)
         data = response.json()
 
-        occupations = [occupation['titulo'] for occupation in data['dados']]
+        occupations = [str(get_translation(occupation['titulo'], language_code)) for occupation in data['dados']]
 
         if occupations:
             return ' / '.join(occupations)
         else:
             return False
 
-    def get_deputy_jobs(deputy_id):
+    def get_deputy_jobs(deputy_id, language_code):
         """this function returns a dictionary with information for each job performed 
            by the deputy according to deputy_id parameter, if deputy has declared any
         """
@@ -76,8 +93,8 @@ class Data:
                     "credit": ""
                 },
                 'text': {
-                    'headline': 'Career',
-                    'text': "Let's check the jobs your deputy has declared?"
+                    'headline': str(get_translation('Career', language_code)),
+                    'text': str(get_translation("Let's check the jobs your deputy has declared?", language_code))
                 }
             }
         }
@@ -97,8 +114,8 @@ class Data:
                     'year': job['anoFim']
                 },
                 'text': {
-                    'headline': job['titulo'],
-                    'text': f"<br/><p>Entidade: {job['entidade']}</p><br/>"
+                    'headline': str(get_translation(job['titulo'], language_code)),
+                    'text': f"<br/><p>Local: {job['entidade']}</p><br/>"
                 }
             }
             events.append(event)
@@ -166,6 +183,11 @@ class Language:
     """Provide dictionary language for English and Portuguese
     """
     def get_lang_dict():
+        """Translation to use in the app
+
+        Returns:
+            dictionary: for PTBR and EN
+        """
         language_dict = {
             'pt': {
                 'language': 'pt',
@@ -195,7 +217,9 @@ class Language:
                 },
                 'career_section': {
                     'header': 'Informações de carreira',
-                    'profession': 'Profissão'
+                    'profession': 'Profissão',
+                    'error_message': """Parece que o(a) deputado(a) não reportou informações de carreira, 
+                                        que tal solicitar essas informações diretamente pelo email?"""
                 },
                 'cost_section': {
                     'header': 'Análise de custo',
@@ -232,7 +256,8 @@ class Language:
                 },
                 'career_section': {
                     'header': 'Career information',
-                    'profession': 'Profession'
+                    'profession': 'Profession',
+                    'error_message': 'It seems that the deputy did not provide any career information, how about you get in touch via email?'
                 },
                 'cost_section': {
                     'header': 'Cost analysis',
