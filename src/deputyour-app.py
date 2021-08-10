@@ -33,7 +33,7 @@ def get_cost_charts(deputy_id, language_dict):
     #! cost_data['mean'] = np.round(cost_data['mean'],decimals=2).astype(str)
 
     cost_data = pd.concat([target_deputy_cost, full_deputies_cost])
-    cost_col1, cost_col2 = st.beta_columns(2)
+    cost_col1, cost_col2 = st.columns(2)
     cost_selected = cost_col1.selectbox('{}:'.format(language_dict['cost_section']['cost_type_filter']),
                                         list(target_deputy_cost.cost_type.unique()))
 
@@ -63,7 +63,7 @@ def update_page(language_dict):
 
     st.markdown("""***""")
 
-    col1, col2 = st.beta_columns(2)
+    col1, col2 = st.columns(2)
 
     if deputy_id:
         deputy_info = Data.get_deputy_info(deputy_dict[deputy_id])
@@ -91,12 +91,18 @@ def update_page(language_dict):
         st.markdown("""***""")
         st.header('{}'.format(language_dict['career_section']['header']))
         st.info('TO DO')
-        deputy_occupation = Data.get_deputy_occupation(deputy_dict[deputy_id])
+        deputy_occupation = Data.get_deputy_occupation(deputy_dict[deputy_id], language_dict['language'])
         st.text('{}: {}'.format(language_dict['career_section']['profession'],
                                 deputy_occupation))
 
-        deputy_timeline = Data.get_deputy_jobs(deputy_dict[deputy_id])
-        timeline(deputy_timeline, height=400)
+        deputy_timeline = Data.get_deputy_jobs(deputy_dict[deputy_id], language_dict['language'])
+        # st.write(deputy_timeline)
+        # st.write(len(deputy_timeline['events']))
+        # st.write(deputy_timeline['events'][0]['text']['headline'])
+        if deputy_timeline['events'][0]['text']['headline'] == 'None' and len(deputy_timeline['events']) == 1:
+            st.warning('{} 😞'.format(language_dict['career_section']['error_message']))
+        else:
+            timeline(deputy_timeline, height=400)
 
         st.markdown("""***""")
         st.header('{}'.format(language_dict['cost_section']['header']))
