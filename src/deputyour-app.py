@@ -13,7 +13,10 @@ from support import Data, Language
 st.set_page_config(page_title='Deputyour', layout='wide', page_icon='🔍')
 
 language = Language.get_lang_dict()
-deputy_dict = Data.get_deputy_dict()
+
+deputy_dict = False
+while deputy_dict == False:
+    deputy_dict = Data.get_deputy_dict()    
 
 def get_bar_chart(dataframe):
     fig = px.line(dataframe, x='month', y='value', color='cost', width=1350)
@@ -113,10 +116,8 @@ def update_page(language_dict):
 st.sidebar.header('Language/Idioma')
 selected_language = st.sidebar.radio('', ['Portuguese/Português', 'English/Inglês'])
 
-if deputy_dict == False:
-    st.error('API issue')
+
+if selected_language == 'Portuguese/Português':
+    update_page(language['pt'])
 else:
-    if selected_language == 'Portuguese/Português':
-        update_page(language['pt'])
-    else:
-        update_page(language['en'])
+    update_page(language['en'])
