@@ -1,6 +1,6 @@
 # @author: Renan Silva
 #? @github: https://github.com/rfelipesilva
-#! Python3.8
+#! Python3.10
 
 import pandas as pd
 import numpy as np
@@ -113,7 +113,10 @@ def update_page(language_dict):
 st.sidebar.header('Language/Idioma')
 selected_language = st.sidebar.radio('', ['Portuguese/Português', 'English/Inglês'])
 
-if selected_language == 'Portuguese/Português':
-    update_page(language['pt'])
+if deputy_dict == False:
+    st.error('API issue')
 else:
-    update_page(language['en'])
+    if selected_language == 'Portuguese/Português':
+        update_page(language['pt'])
+    else:
+        update_page(language['en'])

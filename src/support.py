@@ -31,19 +31,21 @@ class Data:
         """This fuction return a dictionary with deputy name + party abbreviation 
            and id to later be used in other calls
         """
+        try:
+            url_call = 'https://dadosabertos.camara.leg.br/api/v2/deputados?ordem=ASC&ordenarPor=nome'
+            response = requests.get(url_call)
+            data = response.json()
 
-        url_call = 'https://dadosabertos.camara.leg.br/api/v2/deputados?ordem=ASC&ordenarPor=nome'
-        response = requests.get(url_call)
-        data = response.json()
-
-        deputy_dict = {}
-        for response_data in data['dados']:
-            deputy_name = response_data['nome']
-            deputy_party = response_data['siglaPartido']
-            deputy_id = response_data['id']
-            deputy_dict[deputy_name + ' - ' + deputy_party] = deputy_id
-        
-        return deputy_dict
+            deputy_dict = {}
+            for response_data in data['dados']:
+                deputy_name = response_data['nome']
+                deputy_party = response_data['siglaPartido']
+                deputy_id = response_data['id']
+                deputy_dict[deputy_name + ' - ' + deputy_party] = deputy_id
+            
+            return deputy_dict
+        except:
+            return False
 
     def get_deputy_info(deputy_id):
         """This fuction return dictionary with main information 
