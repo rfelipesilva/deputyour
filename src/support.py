@@ -32,16 +32,24 @@ class Data:
            and id to later be used in other calls
         """
         try:
-            url_call = 'https://dadosabertos.camara.leg.br/api/v2/deputados?ordem=ASC&ordenarPor=nome'
-            response = requests.get(url_call)
-            data = response.json()
+            # url_call = 'https://dadosabertos.camara.leg.br/api/v2/deputados?ordem=ASC&ordenarPor=nome'
+            # response = requests.get(url_call)
+            # data = response.json()
 
             deputy_dict = {}
-            for response_data in data['dados']:
-                deputy_name = response_data['nome']
-                deputy_party = response_data['siglaPartido']
-                deputy_id = response_data['id']
-                deputy_dict[deputy_name + ' - ' + deputy_party] = deputy_id
+            # for response_data in data['dados']:
+            #     deputy_name = response_data['nome']
+            #     deputy_party = response_data['siglaPartido']
+            #     deputy_id = response_data['id']
+            #     deputy_dict[deputy_name + ' - ' + deputy_party] = deputy_id
+
+            data = pd.read_csv('../data/bra_deputy_list.csv', delimiter='|')
+
+            for index, line in data.iterrows():
+                deputy_name = line['name']
+                # deputy_party = line['siglaPartido']
+                deputy_id = line['id']
+                deputy_dict[str(deputy_name) + ' - ' + str(deputy_id)] = deputy_id
             
             return deputy_dict
         except:
@@ -135,7 +143,7 @@ class Data:
         #! data_full_grouped['mean'] = round(data_full_grouped['mean'],2)
         #! data_full_grouped.to_csv('data/costs_deputies_full.csv', encoding='utf-8', sep='|', index=False)
 
-        data = pd.read_csv('data/costs_deputies_full.csv',
+        data = pd.read_csv('../data/costs_deputies_full.csv',
                             encoding='utf-8', delimiter='|')
         data.rename(columns={'mean':'value'}, inplace = True)
         data['cost'] = 'mean'
@@ -273,4 +281,14 @@ class Language:
         return language_dict
 
 #? USED TO FORMAT FILES
-#? Data.get_full_costs()
+# print(Data.get_deputy_dict())
+
+# data = pd.read_csv('data/bra_deputy_list.csv', delimiter='|')
+# deputy_dict = {}
+# for index, line in data.iterrows():
+#     deputy_name = line['name']
+#     # deputy_party = line['siglaPartido']
+#     deputy_id = line['id']
+#     deputy_dict[str(deputy_name) + ' - ' + str(deputy_id)] = deputy_id
+
+# print(deputy_dict)
