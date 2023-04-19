@@ -13,10 +13,10 @@ from support import Data, Language
 st.set_page_config(page_title='Deputyour', layout='wide', page_icon='🔍')
 
 language = Language.get_lang_dict()
-deputy_dict = Data.get_deputy_dict()
 
-# print(deputy_dict)
-# st.write(deputy_dict)
+deputy_dict = False
+while deputy_dict == False:
+    deputy_dict = Data.get_deputy_dict()    
 
 def get_bar_chart(dataframe):
     fig = px.line(dataframe, x='month', y='value', color='cost', width=1350)
@@ -64,12 +64,13 @@ def update_page(language_dict):
     st.subheader(language_dict['first_section']['header'])
     deputy_id = st.selectbox(language_dict['first_section']['desc'], list(deputy_dict.keys()))
 
+    #! First section
     st.markdown("""***""")
 
     col1, col2 = st.columns(2)
 
     if deputy_id:
-        deputy_info = Data.get_deputy_info(deputy_dict[deputy_id])
+        deputy_info = Data.get_deputy_info(deputy_dict[deputy_id], language_dict['language'])
         col1.header('{}'.format(language_dict['general_info_section']['header']))
         col1.text('{}: {}'.format(language_dict['general_info_section']['name'],
                                   deputy_info['ultimoStatus']['nome']))
@@ -91,30 +92,33 @@ def update_page(language_dict):
         col2.header('  ')
         col2.image(deputy_info['ultimoStatus']['urlFoto'], width=180)
 
-        st.markdown("""***""")
-        st.header('{}'.format(language_dict['career_section']['header']))
-        st.info('TO DO')
-        deputy_occupation = Data.get_deputy_occupation(deputy_dict[deputy_id], language_dict['language'])
-        st.text('{}: {}'.format(language_dict['career_section']['profession'],
-                                deputy_occupation))
+        #! Career information section
+        # st.markdown("""***""")
+        # st.header('{}'.format(language_dict['career_section']['header']))
+        # st.info('TO DO')
+        # deputy_occupation = Data.get_deputy_occupation(deputy_dict[deputy_id], language_dict['language'])
+        # st.text('{}: {}'.format(language_dict['career_section']['profession'],
+        #                         deputy_occupation))
 
-        deputy_timeline = Data.get_deputy_jobs(deputy_dict[deputy_id], language_dict['language'])
-        # st.write(deputy_timeline)
-        # st.write(len(deputy_timeline['events']))
-        # st.write(deputy_timeline['events'][0]['text']['headline'])
-        if deputy_timeline['events'][0]['text']['headline'] == 'None' and len(deputy_timeline['events']) == 1:
-            st.warning('{} 😞'.format(language_dict['career_section']['error_message']))
-        else:
-            timeline(deputy_timeline, height=400)
+        # deputy_timeline = Data.get_deputy_jobs(deputy_dict[deputy_id], language_dict['language'])
+        # # st.write(deputy_timeline)
+        # # st.write(len(deputy_timeline['events']))
+        # # st.write(deputy_timeline['events'][0]['text']['headline'])
+        # if deputy_timeline['events'][0]['text']['headline'] == 'None' and len(deputy_timeline['events']) == 1:
+        #     st.warning('{} 😞'.format(language_dict['career_section']['error_message']))
+        # else:
+        #     timeline(deputy_timeline, height=400)
 
-        st.markdown("""***""")
-        st.header('{}'.format(language_dict['cost_section']['header']))
-        st.info('TO DO MESSAGE')
-        st.text('{}'.format(language_dict['cost_section']['desc']))
-        get_cost_charts(deputy_dict[deputy_id], language_dict)
+        #! Costs analyse section
+        # st.markdown("""***""")
+        # st.header('{}'.format(language_dict['cost_section']['header']))
+        # st.info('TO DO MESSAGE')
+        # st.text('{}'.format(language_dict['cost_section']['desc']))
+        # get_cost_charts(deputy_dict[deputy_id], language_dict)
 
 st.sidebar.header('Language/Idioma')
 selected_language = st.sidebar.radio('', ['Portuguese/Português', 'English/Inglês'])
+
 
 if selected_language == 'Portuguese/Português':
     update_page(language['pt'])
