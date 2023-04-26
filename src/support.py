@@ -221,13 +221,16 @@ class Language:
                     'state': 'Estado',
                     'email': 'E-mail',
                     'age': 'Idade',
-                    'education': 'Grau de escolaridade'
+                    'education': 'Grau de escolaridade',
+                    'missing_information_warning': """Parece que alguma informação está faltando,
+                                                      provavelmente o(a) deputado(a) não informou ainda... 
+                                                      \nQue tal perguntar diretamente pelo e-mail acima?"""
                 },
                 'career_section': {
                     'header': 'Informações de carreira',
                     'profession': 'Profissão',
                     'error_message': """Parece que o(a) deputado(a) não reportou informações de carreira, 
-                                        que tal solicitar essas informações diretamente pelo email?"""
+                                        que tal solicitar essas informações diretamente pelo e-mail?"""
                 },
                 'cost_section': {
                     'header': 'Análise de custo',
@@ -260,7 +263,10 @@ class Language:
                     'state': 'State',
                     'email': 'E-mail',
                     'age': 'Age',
-                    'education': 'Education'
+                    'education': 'Education',
+                    'missing_information_warning': """It seems that some information is missing,
+                                                      maybe the Congressman still hasn't shared... 
+                                                      \nMaybe you can ask directly by e-mail?"""
                 },
                 'career_section': {
                     'header': 'Career information',

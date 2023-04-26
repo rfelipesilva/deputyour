@@ -91,6 +91,11 @@ def update_page(language_dict):
 
         col2.header('  ')
         col2.image(deputy_info['ultimoStatus']['urlFoto'], width=180)
+        
+        if deputy_info['escolaridade'] == 'Informação faltando' or deputy_info['escolaridade'] == 'Missing information':
+            st.info('{}'.format(language_dict['general_info_section']['missing_information_warning']))
+        else:
+            pass
 
         #! Career information section
         # st.markdown("""***""")
