@@ -101,8 +101,8 @@ class Data:
                     "credit": ""
                 },
                 'text': {
-                    'headline': str(get_translation('Career', language_code)),
-                    'text': str(get_translation("Let's check the jobs your deputy has declared?", language_code))
+                    'headline': str(get_translation('Histórico Profissional', language_code)),
+                    'text': str(get_translation("Vamos dar uma olhada no que o(a) Deputado(a) declarou?", language_code))
                 }
             }
         }

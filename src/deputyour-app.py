@@ -98,21 +98,21 @@ def update_page(language_dict):
             pass
 
         #! Career information section
-        # st.markdown("""***""")
-        # st.header('{}'.format(language_dict['career_section']['header']))
-        # st.info('TO DO')
-        # deputy_occupation = Data.get_deputy_occupation(deputy_dict[deputy_id], language_dict['language'])
-        # st.text('{}: {}'.format(language_dict['career_section']['profession'],
-        #                         deputy_occupation))
+        st.markdown("""***""")
+        st.header('{}'.format(language_dict['career_section']['header']))
+        st.info('TO DO')
+        deputy_occupation = Data.get_deputy_occupation(deputy_dict[deputy_id], language_dict['language'])
+        st.text('{}: {}'.format(language_dict['career_section']['profession'],
+                                deputy_occupation))
 
-        # deputy_timeline = Data.get_deputy_jobs(deputy_dict[deputy_id], language_dict['language'])
-        # # st.write(deputy_timeline)
-        # # st.write(len(deputy_timeline['events']))
-        # # st.write(deputy_timeline['events'][0]['text']['headline'])
-        # if deputy_timeline['events'][0]['text']['headline'] == 'None' and len(deputy_timeline['events']) == 1:
-        #     st.warning('{} 😞'.format(language_dict['career_section']['error_message']))
-        # else:
-        #     timeline(deputy_timeline, height=400)
+        deputy_timeline = Data.get_deputy_jobs(deputy_dict[deputy_id], language_dict['language'])
+        # st.write(deputy_timeline)
+        # st.write(len(deputy_timeline['events']))
+        # st.write(deputy_timeline['events'][0]['text']['headline'])
+        if deputy_timeline['events'][0]['text']['headline'] == 'None' and len(deputy_timeline['events']) == 1:
+            st.warning('{} 😞'.format(language_dict['career_section']['error_message']))
+        else:
+            timeline(deputy_timeline, height=400)
 
         #! Costs analyse section
         # st.markdown("""***""")
