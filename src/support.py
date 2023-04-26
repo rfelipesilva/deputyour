@@ -18,6 +18,12 @@ def get_translation(string, language_code):
     Returns:
         [type]: [description]
     """
+    
+    if string is None:
+        string = "Informação faltando"
+    else:
+        pass
+    
     try:
         blob = TextBlob(string)
         return blob.translate(from_lang='pt', to=language_code)
